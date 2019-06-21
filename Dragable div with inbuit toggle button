@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="Hemanth" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+	<title>Dragable Button with Toggle Button </title>
+    <!---CDN--->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    
+    
+    
+<style>
+#mydiv 
+{
+position: absolute;
+z-index: 9;
+height:50%;
+width:50%
+}
+
+    
+#mydivheader {
+  display: flex; 
+  padding: 5%;
+  cursor: move;
+  z-index: 10;
+  background-color: #06beb6  !important; 
+  color: #fff;
+}
+
+
+ .text
+		{
+			 margin-top:6px;       
+					
+		}
+				
+				
+.button_googlemap {
+    background-color: #ff1659;
+    border: solid 1.5px #ffbf00;
+    color: #ffffff;
+    padding: 7.5px;
+    text-align: center;
+    font-size: 13px;
+    margin-left: 7px;
+    cursor: pointer;
+    position: relative;
+    z-index: 3332;
+    font-family: "Times New Roman", Times, serif;
+    border-radius: 0 1.2em;
+}
+
+        
+.button_googlemapshow {
+    text-align: justify;
+    border: solid 1.5px #ffbf00;
+    background-color: green;
+    color: bisque;
+    padding: 7.5px;
+    font-size: 13px;
+    margin-top: 1px;
+    cursor: pointer;
+    z-index: 3332;
+    font-family: "Times New Roman", Times, serif;
+    border-radius:2em 0;
+}
+     
+				
+		 
+				
+		.gradient_background
+		{
+		background: #06beb6  !important;   /* fallback for old browsers */
+		background-image: linear-gradient(to right top, #62edab, #63cf81, #61b15a, #5e9435, #57780c); !important; /* Chrome 10-25, Safari 5.1-6 */
+		background: linear-gradient(to right top, #62edab, #63cf81, #61b15a, #5e9435, #57780c);!important; ; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+				 
+		}
+				
+				
+		.wrapper {
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  width: 100%;
+		  height: 100%;
+		  height: 100%;
+
+		  
+		}
+		
+	
+	.top_align
+	{
+	 margin-top:20px;
+	 margin: 0 auto;
+	 border: dotted 1px black;
+	}
+
+
+</style>
+<body>
+
+<h1>Draggable DIV Element</h1>
+
+<p>Click and hold the mouse button down while moving the DIV element</p>
+
+  
+  
+ <div class="top_align">
+	<div id="mydiv" style="width:15.5%;height: 32%;bottom:4%;" >
+       
+            <div id="mydivheader"> <span class="text">Click here to move </span>  <span><input type="button" id="button_draggable" value="Hide"    class="button_googlemap" onclick="callhide()"> </span>  </div>
+		      <div id="map" style="width: 100%; height: 77%; Right: 0px;"></div>
+                                                                  
+	</div>
+    
+</div>
+<script>
+
+  function callhide()
+    {
+        $("#mydiv").animate({height:'8%', width:'8.9%' } , 200);
+        $("#map").animate({height:'0%', width:'0%' } , 200);
+        $("#mydiv").css("background-color", "#2196F3");
+        $("#mydivheader").addClass("wrapper");
+        $("#mydivheader").addClass("gradient_background");  
+        $("#mydivheader").addClass("rounded-corners");  
+        $("#mydivheader").html('<span><input type="button"  value="Show" class="button_googlemapshow" onclick="callshow()">');
+        
+        
+    }
+        
+
+    function callshow()
+      {
+        $("#mydivheader").removeClass("wrapper");   
+        $("#mydiv").animate({height:'32%', width:'15.2%', bottom:'4%' },200);
+        $("#map").animate({height:'77%', width:'100%' } , 200);
+        $("#mydivheader").html('<span class="text">Click here to move </span><input type="button"  value="Hide" class="button_googlemap" onclick="callhide()">');
+        $("#mydiv").removeClass("change_mydivheader");  
+      }
+
+
+
+//Make the DIV element draggagle:
+dragElement(document.getElementById("mydiv"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    /* if present, the header is where you move the DIV from:*/
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+</script>
+
+</body>
+</html>
